@@ -92,11 +92,19 @@ export default {
         },
         "scroll-left": {
           "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(-100%)" },
         },
         "scroll-right": {
-          "0%": { transform: "translateX(-50%)" },
+          "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(0)" },
+        },
+        "scroll-up": {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-100%)" },
+        },
+        "scroll-down": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(0)" },
         },
         "float-1": {
           "0%, 100%": { transform: "translate(0, 0)", opacity: "0.3" },
@@ -116,9 +124,12 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-gold": "pulse-gold 2s ease-in-out infinite",
         "fade-up": "fade-up 0.4s ease-out",
-        "scroll-left": "scroll-left 30s linear infinite",
-        "scroll-right": "scroll-right 30s linear infinite",
-        "scroll-left-slow": "scroll-left 45s linear infinite",
+        "scroll-left": "scroll-left 40s linear infinite",
+        "scroll-right": "scroll-right 40s linear infinite",
+        "scroll-up": "scroll-up 50s linear infinite",
+        "scroll-down": "scroll-down 50s linear infinite",
+        "scroll-up-slow": "scroll-up 70s linear infinite",
+        "scroll-down-slow": "scroll-down 70s linear infinite",
         "float-1": "float-1 6s ease-in-out infinite",
         "float-2": "float-2 8s ease-in-out infinite",
         "float-3": "float-3 7s ease-in-out infinite",

@@ -1,5 +1,7 @@
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Building2, User } from "lucide-react";
+import LinkPreviewCard from "./LinkPreviewCard";
 
 interface ChatMessageProps {
   role: "user" | "assistant";
@@ -13,11 +15,10 @@ const ChatMessage = ({ role, content, isStreaming }: ChatMessageProps) => {
   return (
     <div className={`flex gap-4 animate-fade-up ${isUser ? "flex-row-reverse" : ""}`}>
       <div
-        className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center ${
-          isUser
-            ? "bg-secondary"
-            : "bg-gradient-gold"
-        }`}
+        className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center ${isUser
+          ? "bg-secondary"
+          : "bg-gradient-gold"
+          }`}
       >
         {isUser ? (
           <User className="w-4 h-4 text-secondary-foreground" />
@@ -27,17 +28,29 @@ const ChatMessage = ({ role, content, isStreaming }: ChatMessageProps) => {
       </div>
 
       <div
-        className={`flex-1 max-w-[85%] rounded-2xl px-5 py-4 ${
-          isUser
-            ? "bg-secondary text-secondary-foreground rounded-tr-sm"
-            : "glass-surface rounded-tl-sm"
-        }`}
+        className={`flex-1 max-w-[85%] rounded-2xl px-5 py-4 ${isUser
+          ? "bg-secondary text-secondary-foreground rounded-tr-sm"
+          : "glass-surface rounded-tl-sm"
+          }`}
       >
         {isUser ? (
           <p className="text-sm leading-relaxed whitespace-pre-wrap">{content}</p>
         ) : (
           <div className="prose-chat text-sm">
-            <ReactMarkdown>{content}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => {
+                  const href = props.href || "";
+                  if (href.startsWith("http")) {
+                    return <LinkPreviewCard url={href} />;
+                  }
+                  return <a {...props} />;
+                }
+              }}
+            >
+              {content}
+            </ReactMarkdown>
             {isStreaming && (
               <span className="inline-block w-2 h-4 bg-primary animate-pulse-gold ml-1 rounded-sm" />
             )}

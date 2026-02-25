@@ -8,38 +8,28 @@ import property6 from "@/assets/property-6.jpg";
 import property7 from "@/assets/property-7.jpg";
 import property8 from "@/assets/property-8.jpg";
 
-const row1 = [
-  { src: property1, label: "Luxury Apartments" },
-  { src: property5, label: "City Skyline" },
-  { src: property3, label: "City Penthouses" },
-  { src: property7, label: "Family Homes" },
-  { src: property1, label: "Luxury Apartments" },
-  { src: property5, label: "City Skyline" },
-  { src: property3, label: "City Penthouses" },
-  { src: property7, label: "Family Homes" },
+// Duplicate and shuffle for continuous seamless scrolling
+const images = [
+  property1, property2, property3, property4,
+  property5, property6, property7, property8
 ];
 
-const row2 = [
-  { src: property2, label: "Beachfront Villas" },
-  { src: property6, label: "Mediterranean Villa" },
-  { src: property4, label: "Modern Homes" },
-  { src: property8, label: "Loft Living" },
-  { src: property2, label: "Beachfront Villas" },
-  { src: property6, label: "Mediterranean Villa" },
-  { src: property4, label: "Modern Homes" },
-  { src: property8, label: "Loft Living" },
-];
+const getColumnImages = (offset: number) => {
+  const col = [...images];
+  for (let i = 0; i < offset; i++) {
+    col.push(col.shift()!);
+  }
+  // Double up to ensure seamless scroll
+  return [...col, ...col, ...col];
+};
 
-const row3 = [
-  { src: property3, label: "City Penthouses" },
-  { src: property8, label: "Loft Living" },
-  { src: property1, label: "Luxury Apartments" },
-  { src: property6, label: "Mediterranean Villa" },
-  { src: property3, label: "City Penthouses" },
-  { src: property8, label: "Loft Living" },
-  { src: property1, label: "Luxury Apartments" },
-  { src: property6, label: "Mediterranean Villa" },
-];
+const col1 = getColumnImages(0);
+const col2 = getColumnImages(3);
+const col3 = getColumnImages(5);
+const col4 = getColumnImages(1);
+const col5 = getColumnImages(6);
+const col6 = getColumnImages(2);
+const col7 = getColumnImages(4);
 
 const PropertyGallery = () => {
   const [mounted, setMounted] = useState(false);
@@ -49,49 +39,89 @@ const PropertyGallery = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-      {/* Gradient overlays for smooth blending */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background z-10" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background z-10" />
+    <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 perspective-[1000px]">
+      {/* Soft gradient mask for edges */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,hsl(var(--background))_80%)] z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background z-10" />
 
-      {/* Rolling rows container */}
+      {/* Isometric 3D Container */}
       <div
-        className="absolute inset-0 flex flex-col justify-center gap-4 transition-opacity duration-1000"
-        style={{ opacity: mounted ? 0.12 : 0 }}
+        className="absolute w-[150vw] h-[150vh] left-1/2 top-1/2 -translate-x-1/2 -translate-y-[45%] flex justify-center gap-6 transition-opacity duration-1000"
+        style={{
+          opacity: mounted ? 0.2 : 0,
+          transform: `translate(-50%, -45%) rotateX(60deg) rotateZ(-35deg) scale(1.15)`,
+          transformOrigin: "center center",
+        }}
       >
-        {/* Row 1 - scrolls left */}
-        <div className="flex gap-4 animate-scroll-left">
-          {row1.map((img, i) => (
-            <div key={`r1-${i}`} className="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden">
-              <img src={img.src} alt={img.label} className="w-full h-full object-cover" loading="lazy" />
+        {/* Column 1 - scrolls up */}
+        <div className="flex flex-col gap-6 -mt-[20vh] h-max animate-scroll-up-slow">
+          {col1.map((src, i) => (
+            <div key={`c1-${i}`} className="w-56 h-72 rounded-2xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+              <img src={src} className="w-full h-full object-cover" loading="lazy" alt="" />
             </div>
           ))}
         </div>
 
-        {/* Row 2 - scrolls right */}
-        <div className="flex gap-4 animate-scroll-right">
-          {row2.map((img, i) => (
-            <div key={`r2-${i}`} className="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden">
-              <img src={img.src} alt={img.label} className="w-full h-full object-cover" loading="lazy" />
+        {/* Column 2 - scrolls down */}
+        <div className="flex flex-col gap-6 -mt-[40vh] h-max animate-scroll-down">
+          {col2.map((src, i) => (
+            <div key={`c2-${i}`} className="w-56 h-72 rounded-2xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+              <img src={src} className="w-full h-full object-cover" loading="lazy" alt="" />
             </div>
           ))}
         </div>
 
-        {/* Row 3 - scrolls left slower */}
-        <div className="flex gap-4 animate-scroll-left-slow">
-          {row3.map((img, i) => (
-            <div key={`r3-${i}`} className="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden">
-              <img src={img.src} alt={img.label} className="w-full h-full object-cover" loading="lazy" />
+        {/* Column 3 - scrolls up */}
+        <div className="flex flex-col gap-6 h-max animate-scroll-up">
+          {col3.map((src, i) => (
+            <div key={`c3-${i}`} className="w-56 h-72 rounded-2xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+              <img src={src} className="w-full h-full object-cover" loading="lazy" alt="" />
+            </div>
+          ))}
+        </div>
+
+        {/* Column 4 - scrolls down */}
+        <div className="flex flex-col gap-6 -mt-[30vh] h-max animate-scroll-down-slow">
+          {col4.map((src, i) => (
+            <div key={`c4-${i}`} className="w-56 h-72 rounded-2xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+              <img src={src} className="w-full h-full object-cover" loading="lazy" alt="" />
+            </div>
+          ))}
+        </div>
+
+        {/* Column 5 - scrolls up */}
+        <div className="flex flex-col gap-6 -mt-[10vh] h-max animate-scroll-up">
+          {col5.map((src, i) => (
+            <div key={`c5-${i}`} className="w-56 h-72 rounded-2xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+              <img src={src} className="w-full h-full object-cover" loading="lazy" alt="" />
+            </div>
+          ))}
+        </div>
+
+        {/* Column 6 - scrolls down */}
+        <div className="flex flex-col gap-6 -mt-[50vh] h-max animate-scroll-down">
+          {col6.map((src, i) => (
+            <div key={`c6-${i}`} className="w-56 h-72 rounded-2xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+              <img src={src} className="w-full h-full object-cover" loading="lazy" alt="" />
+            </div>
+          ))}
+        </div>
+
+        {/* Column 7 - scrolls up */}
+        <div className="flex flex-col gap-6 -mt-[5vh] h-max animate-scroll-up-slow">
+          {col7.map((src, i) => (
+            <div key={`c7-${i}`} className="w-56 h-72 rounded-2xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+              <img src={src} className="w-full h-full object-cover" loading="lazy" alt="" />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Floating particles */}
-      <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full bg-primary/20 animate-float-1 z-20" />
-      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-primary/15 animate-float-2 z-20" />
-      <div className="absolute bottom-1/4 left-1/3 w-1 h-1 rounded-full bg-primary/20 animate-float-3 z-20" />
-      <div className="absolute top-2/3 right-1/4 w-0.5 h-0.5 rounded-full bg-primary/25 animate-float-1 z-20" />
+      {/* Floating particles remain */}
+      <div className="absolute top-1/4 left-1/4 w-1.5 h-1.5 rounded-full bg-primary/30 animate-float-1 z-20 shadow-[0_0_10px_hsl(var(--primary))]" />
+      <div className="absolute top-1/3 right-1/3 w-2 h-2 rounded-full bg-primary/20 animate-float-2 z-20 shadow-[0_0_10px_hsl(var(--primary))]" />
+      <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 rounded-full bg-primary/30 animate-float-3 z-20 shadow-[0_0_10px_hsl(var(--primary))]" />
+      <div className="absolute top-2/3 right-1/4 w-1 h-1 rounded-full bg-primary/40 animate-float-1 z-20 shadow-[0_0_8px_hsl(var(--primary))]" />
     </div>
   );
 };
