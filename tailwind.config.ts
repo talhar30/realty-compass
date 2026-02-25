@@ -90,12 +90,38 @@ export default {
           from: { opacity: "0", transform: "translateY(12px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        "scroll-left": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "scroll-right": {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        "float-1": {
+          "0%, 100%": { transform: "translate(0, 0)", opacity: "0.3" },
+          "50%": { transform: "translate(20px, -30px)", opacity: "0.6" },
+        },
+        "float-2": {
+          "0%, 100%": { transform: "translate(0, 0)", opacity: "0.2" },
+          "50%": { transform: "translate(-15px, 25px)", opacity: "0.5" },
+        },
+        "float-3": {
+          "0%, 100%": { transform: "translate(0, 0)", opacity: "0.25" },
+          "50%": { transform: "translate(10px, -20px)", opacity: "0.55" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-gold": "pulse-gold 2s ease-in-out infinite",
         "fade-up": "fade-up 0.4s ease-out",
+        "scroll-left": "scroll-left 30s linear infinite",
+        "scroll-right": "scroll-right 30s linear infinite",
+        "scroll-left-slow": "scroll-left 45s linear infinite",
+        "float-1": "float-1 6s ease-in-out infinite",
+        "float-2": "float-2 8s ease-in-out infinite",
+        "float-3": "float-3 7s ease-in-out infinite",
       },
     },
   },
